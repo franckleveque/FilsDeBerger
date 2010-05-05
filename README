@@ -1,0 +1,15 @@
+"Fils de berger" is a C# + SDL.Net Game which will allow you to control a dog and a shepherd in order to park your sheep
+
+ROADMAP :
+
+V0.1
+
+Player (Move by keyboard arrows)
+1 Sheep
+1 Victory area
+
+Sheep flee the player
+
+Victory conditions :
+
+When the sheep enters the victory area
