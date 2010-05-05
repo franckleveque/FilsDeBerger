@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilsDeBerger", "./FilsDeBerger/FilsDeBerger.csproj", "{E6BCC35B-BDE4-41ED-ADD9-3EE1275A2BB4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E6BCC35B-BDE4-41ED-ADD9-3EE1275A2BB4}.Debug|x86.ActiveCfg = Debug|x86
+		{E6BCC35B-BDE4-41ED-ADD9-3EE1275A2BB4}.Debug|x86.Build.0 = Debug|x86
+		{E6BCC35B-BDE4-41ED-ADD9-3EE1275A2BB4}.Release|x86.ActiveCfg = Release|x86
+		{E6BCC35B-BDE4-41ED-ADD9-3EE1275A2BB4}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = FilsDeBerger.csproj
+	EndGlobalSection
+EndGlobal
