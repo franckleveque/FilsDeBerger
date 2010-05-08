@@ -58,12 +58,12 @@ namespace SdlDotNetExamples.SmallDemos
         {
             // Start up the window
             Video.WindowIcon();
-            Video.WindowCaption = "SDL.NET - Hero Example";
-            Video.SetVideoMode(400, 300);
+            Video.WindowCaption = "Fils de Berger";
+            Video.SetVideoMode(800, 600);
 
             string filePath = Path.Combine("..", "..");
-            string fileDirectory = "Data";
-            string fileName = "hero.png";
+            string fileDirectory = @"Graphics\Charset";
+            string fileName = "shepherd.png";
             if (File.Exists(fileName))
             {
                 filePath = "";
@@ -79,32 +79,38 @@ namespace SdlDotNetExamples.SmallDemos
             // Load the image
             Surface image = new Surface(file);
 
+            int animHeight = image.Height / 4;
+            int animWidth = image.Width / 4;
+
             // Create the animation frames
-            SurfaceCollection walkUp = new SurfaceCollection();
-            walkUp.Add(image, new Size(24, 32), 0);
-            SurfaceCollection walkRight = new SurfaceCollection();
-            walkRight.Add(image, new Size(24, 32), 1);
             SurfaceCollection walkDown = new SurfaceCollection();
-            walkDown.Add(image, new Size(24, 32), 2);
+            walkDown.Add(image, new Size(animWidth, animHeight), 0);
             SurfaceCollection walkLeft = new SurfaceCollection();
-            walkLeft.Add(image, new Size(24, 32), 3);
+            walkLeft.Add(image, new Size(animWidth, animHeight), 1);
+            SurfaceCollection walkRight = new SurfaceCollection();
+            walkRight.Add(image, new Size(animWidth, animHeight), 2);
+            SurfaceCollection walkUp = new SurfaceCollection();
+            walkUp.Add(image, new Size(animWidth, animHeight), 3);
+            
+            
 
             // Add the animations to the hero
             AnimationCollection animWalkUp = new AnimationCollection();
-            animWalkUp.Add(walkUp, 35);
+            animWalkUp.Add(walkUp, animHeight - 1);
             hero.Animations.Add("WalkUp", animWalkUp);
             AnimationCollection animWalkRight = new AnimationCollection();
-            animWalkRight.Add(walkRight, 35);
+            animWalkRight.Add(walkRight, animHeight - 1);
             hero.Animations.Add("WalkRight", animWalkRight);
             AnimationCollection animWalkDown = new AnimationCollection();
-            animWalkDown.Add(walkDown, 35);
+            animWalkDown.Add(walkDown, animHeight - 1);
             hero.Animations.Add("WalkDown", animWalkDown);
             AnimationCollection animWalkLeft = new AnimationCollection();
-            animWalkLeft.Add(walkLeft, 35);
+            animWalkLeft.Add(walkLeft, animHeight - 1);
             hero.Animations.Add("WalkLeft", animWalkLeft);
 
             // Change the transparent color of the sprite
-            hero.TransparentColor = Color.Magenta;
+            Color animTrans = image.GetPixel(new Point(1, 1));
+            hero.TransparentColor = animTrans;
             hero.Transparent = true;
 
             // Setup the startup animation and make him not walk
