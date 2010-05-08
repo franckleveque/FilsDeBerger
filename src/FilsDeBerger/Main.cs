@@ -27,19 +27,20 @@ using SdlDotNet.Graphics;
 using SdlDotNet.Graphics.Sprites;
 using SdlDotNet.Core;
 using SdlDotNet.Input;
+using FilsDeBerger.SDL;
 
 namespace SdlDotNetExamples.SmallDemos
 {
-    public class HeroExample : IDisposable
+    public class FilsDeBerger : IDisposable
     {
         // Our hero sprite to walk around.
-        private AnimatedSprite hero = new AnimatedSprite(); 
+        private Character hero; 
 
         [STAThread]
         public static void Main()
         {
             // Start the application
-            HeroExample app = new HeroExample();
+            FilsDeBerger app = new FilsDeBerger();
             app.Go();
         }
 
@@ -54,67 +55,16 @@ namespace SdlDotNetExamples.SmallDemos
             Events.Run();
         }
 
-        public HeroExample()
+        public FilsDeBerger()
         {
             // Start up the window
             Video.WindowIcon();
             Video.WindowCaption = "Fils de Berger";
             Video.SetVideoMode(800, 600);
 
-            string filePath = Path.Combine("..", "..");
-            string fileDirectory = @"Graphics\Charset";
-            string fileName = "shepherd.png";
-            if (File.Exists(fileName))
-            {
-                filePath = "";
-                fileDirectory = "";
-            }
-            else if (File.Exists(Path.Combine(fileDirectory, fileName)))
-            {
-                filePath = "";
-            }
-
-            string file = Path.Combine(Path.Combine(filePath, fileDirectory), fileName);
-
-            // Load the image
-            Surface image = new Surface(file);
-
-            int animHeight = image.Height / 4;
-            int animWidth = image.Width / 4;
-
-            // Create the animation frames
-            SurfaceCollection walkDown = new SurfaceCollection();
-            walkDown.Add(image, new Size(animWidth, animHeight), 0);
-            SurfaceCollection walkLeft = new SurfaceCollection();
-            walkLeft.Add(image, new Size(animWidth, animHeight), 1);
-            SurfaceCollection walkRight = new SurfaceCollection();
-            walkRight.Add(image, new Size(animWidth, animHeight), 2);
-            SurfaceCollection walkUp = new SurfaceCollection();
-            walkUp.Add(image, new Size(animWidth, animHeight), 3);
+            Character.Path = @"Graphics\Charset";
+            hero = new Character("shepherd.png");
             
-            
-
-            // Add the animations to the hero
-            AnimationCollection animWalkUp = new AnimationCollection();
-            animWalkUp.Add(walkUp, animHeight - 1);
-            hero.Animations.Add("WalkUp", animWalkUp);
-            AnimationCollection animWalkRight = new AnimationCollection();
-            animWalkRight.Add(walkRight, animHeight - 1);
-            hero.Animations.Add("WalkRight", animWalkRight);
-            AnimationCollection animWalkDown = new AnimationCollection();
-            animWalkDown.Add(walkDown, animHeight - 1);
-            hero.Animations.Add("WalkDown", animWalkDown);
-            AnimationCollection animWalkLeft = new AnimationCollection();
-            animWalkLeft.Add(walkLeft, animHeight - 1);
-            hero.Animations.Add("WalkLeft", animWalkLeft);
-
-            // Change the transparent color of the sprite
-            Color animTrans = image.GetPixel(new Point(1, 1));
-            hero.TransparentColor = animTrans;
-            hero.Transparent = true;
-
-            // Setup the startup animation and make him not walk
-            hero.CurrentAnimation = "WalkDown";
             hero.Animate = false;
             // Put him in the center of the screen
             hero.Center = new Point(
@@ -270,7 +220,7 @@ namespace SdlDotNetExamples.SmallDemos
         /// <summary>
         /// 
         /// </summary>
-        ~HeroExample()
+        ~FilsDeBerger()
         {
             Dispose(false);
         }

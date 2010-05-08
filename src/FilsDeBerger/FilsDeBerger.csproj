@@ -35,6 +35,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\SDL.Net\SdlDotNet.dll</HintPath>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
     <Reference Include="Tao.Sdl, Version=1.2.13.0, Culture=neutral, PublicKeyToken=9c7a200e36c0094e">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\SDL.Net\Tao.Sdl.dll</HintPath>
@@ -44,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="SDL\Character.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Graphics\Charset\cow.png" />
