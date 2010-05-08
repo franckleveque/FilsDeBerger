@@ -24,6 +24,12 @@ namespace FilsDeBerger.SDL
             set;
         }
 
+        public int Speed
+        {
+            get;
+            set;
+        }
+
         public Character(string fileName)
         {
             this.FileName = fileName;
@@ -64,7 +70,6 @@ namespace FilsDeBerger.SDL
 
             // Setup the startup animation and make him not walk
             this.CurrentAnimation = "WalkDown";
-
         }
     }
 }

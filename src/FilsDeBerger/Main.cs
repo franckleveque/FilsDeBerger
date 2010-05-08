@@ -33,8 +33,8 @@ namespace SdlDotNetExamples.SmallDemos
 {
     public class FilsDeBerger : IDisposable
     {
-        // Our hero sprite to walk around.
-        private Character hero; 
+        // List of characters to move in the world
+        private Character[] characters; 
 
         [STAThread]
         public static void Main()
@@ -63,12 +63,23 @@ namespace SdlDotNetExamples.SmallDemos
             Video.SetVideoMode(800, 600);
 
             Character.Path = @"Graphics\Charset";
-            hero = new Character("shepherd.png");
-            
-            hero.Animate = false;
+            characters = new Character[2];
+            characters[0] = new Character("shepherd.png");
+            characters[0].Speed = 2;
+            characters[1] = new Character("sheep.png");
+            characters[1].Speed = 1;
+            foreach (Character hero in characters)
+            {
+                hero.Animate = false;
+            }
+
             // Put him in the center of the screen
-            hero.Center = new Point(
+            characters[0].Center = new Point(
                 Video.Screen.Width / 2,
+                Video.Screen.Height / 2);
+
+            characters[1].Center = new Point(
+                Video.Screen.Width / 2 + 50,
                 Video.Screen.Height / 2);
         }
 
@@ -79,7 +90,10 @@ namespace SdlDotNetExamples.SmallDemos
             Video.Screen.Fill(Color.DarkGreen);
             try
             {
-                Video.Screen.Blit(hero);
+                foreach (Character hero in characters)
+                {
+                    Video.Screen.Blit(hero);
+                }
                 //hero.Render(Video.Screen);
             }
             catch (System.ArgumentOutOfRangeException ex)
@@ -90,23 +104,26 @@ namespace SdlDotNetExamples.SmallDemos
 
 
             // If the hero is animated, he is walking, so move him around!
-            if (hero.Animate)
+            foreach (Character hero in characters)
             {
-                switch (hero.CurrentAnimation)
+                if (hero.Animate)
                 {
-                    case "WalkLeft":
-                        // 2 is the speed of the hero when walking.
-                        hero.X -= 2;
-                        break;
-                    case "WalkUp":
-                        hero.Y -= 2;
-                        break;
-                    case "WalkDown":
-                        hero.Y += 2;
-                        break;
-                    case "WalkRight":
-                        hero.X += 2;
-                        break;
+                    switch (hero.CurrentAnimation)
+                    {
+                        case "WalkLeft":
+                            // 2 is the speed of the hero when walking.
+                            hero.X -= hero.Speed;
+                            break;
+                        case "WalkUp":
+                            hero.Y -= hero.Speed;
+                            break;
+                        case "WalkDown":
+                            hero.Y += hero.Speed;
+                            break;
+                        case "WalkRight":
+                            hero.X += hero.Speed;
+                            break;
+                    }
                 }
             }
 
@@ -119,20 +136,36 @@ namespace SdlDotNetExamples.SmallDemos
             switch (e.Key)
             {
                 case Key.LeftArrow:
-                    hero.CurrentAnimation = "WalkLeft";
-                    hero.Animate = true;
+                    foreach (Character hero in characters)
+                    {
+                        hero.CurrentAnimation = "WalkLeft";
+                        hero.Animate = true;
+                    }
+
                     break;
                 case Key.RightArrow:
-                    hero.CurrentAnimation = "WalkRight";
-                    hero.Animate = true;
+                    foreach (Character hero in characters)
+                    {
+                        hero.CurrentAnimation = "WalkRight";
+                        hero.Animate = true;
+                    }
+
                     break;
                 case Key.DownArrow:
-                    hero.CurrentAnimation = "WalkDown";
-                    hero.Animate = true;
+                    foreach (Character hero in characters)
+                    {
+                        hero.CurrentAnimation = "WalkDown";
+                        hero.Animate = true;
+                    }
+
                     break;
                 case Key.UpArrow:
-                    hero.CurrentAnimation = "WalkUp";
-                    hero.Animate = true;
+                    foreach (Character hero in characters)
+                    {
+                        hero.CurrentAnimation = "WalkUp";
+                        hero.Animate = true;
+                    }
+
                     break;
                 case Key.Escape:
                 case Key.Q:
@@ -144,21 +177,33 @@ namespace SdlDotNetExamples.SmallDemos
         private void Events_KeyboardUp(object sender, KeyboardEventArgs e)
         {
             // Check which key was brought up and stop the hero if needed
-            if (e.Key == Key.LeftArrow && hero.CurrentAnimation == "WalkLeft")
+            if (e.Key == Key.LeftArrow && characters[0].CurrentAnimation == "WalkLeft")
             {
-                hero.Animate = false;
+                foreach (Character hero in characters)
+                {
+                    hero.Animate = false;
+                }
             }
-            else if (e.Key == Key.UpArrow && hero.CurrentAnimation == "WalkUp")
+            else if (e.Key == Key.UpArrow && characters[0].CurrentAnimation == "WalkUp")
             {
-                hero.Animate = false;
+                foreach (Character hero in characters)
+                {
+                    hero.Animate = false;
+                }
             }
-            else if (e.Key == Key.DownArrow && hero.CurrentAnimation == "WalkDown")
+            else if (e.Key == Key.DownArrow && characters[0].CurrentAnimation == "WalkDown")
             {
-                hero.Animate = false;
+                foreach (Character hero in characters)
+                {
+                    hero.Animate = false;
+                }
             }
-            else if (e.Key == Key.RightArrow && hero.CurrentAnimation == "WalkRight")
+            else if (e.Key == Key.RightArrow && characters[0].CurrentAnimation == "WalkRight")
             {
-                hero.Animate = false;
+                foreach (Character hero in characters)
+                {
+                    hero.Animate = false;
+                }
             }
         }
         private void Events_Quit(object sender, QuitEventArgs e)
@@ -191,10 +236,13 @@ namespace SdlDotNetExamples.SmallDemos
             {
                 if (disposing)
                 {
-                    if (this.hero != null)
+                    for(int i= 0;i<characters.GetLength(0);i++)
                     {
-                        this.hero.Dispose();
-                        this.hero = null;
+                        if (characters[i] != null)
+                        {
+                            characters[i].Dispose();
+                            characters[i] = null;
+                        }
                     }
                 }
                 this.disposed = true;
