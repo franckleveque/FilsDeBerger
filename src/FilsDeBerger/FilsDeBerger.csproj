@@ -44,9 +44,12 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IA\SheepIA.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="SDL\Character.cs" />
+    <Compile Include="SDL\Sheep.cs" />
+    <Compile Include="SDL\Shepherd.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Graphics\Charset\cow.png" />

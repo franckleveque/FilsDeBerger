@@ -5,6 +5,9 @@
     using SdlDotNet.Graphics;
     using SdlDotNet.Graphics.Sprites;
 
+
+     public delegate MoveDirection ThinkerDelegate(Character curCharacter, Character[] allCharacters);
+
     #region Enumerations
 
     /// <summary>
@@ -31,6 +34,15 @@
         /// Not moving sprite
         /// </summary>
         None
+    }
+
+    public enum MoveDirection
+    { 
+        Up,
+        Right,
+        Down,
+        Left,
+        Stop
     }
 
     #endregion Enumerations
@@ -123,6 +135,7 @@
 
                 // Setup the startup animation and make him not walk
                 this.CurrentAnimation = "WalkDown";
+                this.Animate = false;
             }
         }
 
@@ -135,6 +148,30 @@
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the type of controller for the character
+        /// </summary>
+        public Controller Control
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets IA function for IA controlled characters
+        /// </summary>
+        public ThinkerDelegate Think
+        {
+            get;
+            set;
+        }
+
         #endregion Properties
+
+        public int GetDistance(Character toCheck)
+        {
+            return System.Math.Abs(this.Position.X - toCheck.Position.X) +
+                   System.Math.Abs(this.Position.Y - toCheck.Position.Y);
+        }
     }
 }

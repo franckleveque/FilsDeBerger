@@ -45,14 +45,8 @@ namespace FilsDeBerger
 
             Character.Path = @"Graphics\Charset";
             this.characters = new Character[2];
-            this.characters[0] = new Character("shepherd.png");
-            this.characters[0].Speed = 2;
-            this.characters[1] = new Character("sheep.png");
-            this.characters[1].Speed = 1;
-            foreach (Character hero in this.characters)
-            {
-                hero.Animate = false;
-            }
+            this.characters[0] = new Shepherd();
+            this.characters[1] = new Sheep();
 
             // Put him in the center of the screen
             this.characters[0].Center = new Point(
@@ -62,6 +56,80 @@ namespace FilsDeBerger
             this.characters[1].Center = new Point(
                 (Video.Screen.Width / 2) + 50,
                 Video.Screen.Height / 2);
+
+            // Initialize the thinking of IA
+            System.Threading.ThreadPool.QueueUserWorkItem(delegate(object notUsed)
+            {
+                while (true)
+                {
+                    // First get only IA controlled 
+                    Character[] iaControlled = Array.FindAll(characters, delegate(Character toCheck)
+                    {
+                        return toCheck.Control == Controller.IA && toCheck.Think != null;
+                    });
+
+                    foreach (Character curIA in iaControlled)
+                    {
+                        switch (curIA.Think(curIA, characters))
+                        { 
+                            case MoveDirection.Down:
+                                if (curIA.CurrentAnimation != "WalkDown")
+                                {
+                                    curIA.CurrentAnimation = "WalkDown";
+                                }
+
+                                if (!curIA.Animate)
+                                {
+                                    curIA.Animate = true;
+                                }
+
+                                break;
+                            case MoveDirection.Left:
+                                if (curIA.CurrentAnimation != "WalkLeft")
+                                {
+                                    curIA.CurrentAnimation = "WalkLeft";
+                                }
+
+                                if (!curIA.Animate)
+                                {
+                                    curIA.Animate = true;
+                                }
+                                break;
+                            case MoveDirection.Right:
+                                if (curIA.CurrentAnimation != "WalkRight")
+                                {
+                                    curIA.CurrentAnimation = "WalkRight";
+                                }
+
+                                if (!curIA.Animate)
+                                {
+                                    curIA.Animate = true;
+                                }
+
+                                break;
+                            case MoveDirection.Stop:
+                                curIA.Animate = false;
+                                break;
+                            case MoveDirection.Up:
+                                if (curIA.CurrentAnimation != "WalkUp")
+                                {
+                                    curIA.CurrentAnimation = "WalkUp";
+                                }
+
+                                if (!curIA.Animate)
+                                {
+                                    curIA.Animate = true;
+                                }
+
+                                break;
+                        }
+                        
+                    }
+
+                    // Sleeping a little to let other threads do their jobs
+                    System.Threading.Thread.Sleep(10);
+                }
+            });
         }
 
         /// <summary>
@@ -150,44 +218,48 @@ namespace FilsDeBerger
         private void Events_KeyboardDown(object sender, KeyboardEventArgs e)
         {
             // Check which key was pressed and change the animation accordingly
-            switch (e.Key)
+            Character hero = Array.Find(characters, delegate(Character toCheck)
             {
-                case Key.LeftArrow:
-                    foreach (Character hero in this.characters)
-                    {
-                        hero.CurrentAnimation = "WalkLeft";
-                        hero.Animate = true;
-                    }
+                return toCheck.Control == Controller.Player;
+            });
+            if (hero != null)
+            {
+                switch (e.Key)
+                {
+                    case Key.LeftArrow:
+                            hero.CurrentAnimation = "WalkLeft";
+                            hero.Animate = true;
+                        break;
+                    case Key.RightArrow:
+                            hero.CurrentAnimation = "WalkRight";
+                            hero.Animate = true;
+                        break;
+                    case Key.DownArrow:
+                            hero.CurrentAnimation = "WalkDown";
+                            hero.Animate = true;
+                        break;
+                    case Key.UpArrow:
+                            hero.CurrentAnimation = "WalkUp";
+                            hero.Animate = true;
+                        break;
+                    case Key.Tab:
+                        Character notConrolledHero = Array.Find(characters, delegate(Character toCheck)
+                        {
+                            return toCheck.Control == Controller.AltPlayer;
+                        });
 
-                    break;
-                case Key.RightArrow:
-                    foreach (Character hero in this.characters)
-                    {
-                        hero.CurrentAnimation = "WalkRight";
-                        hero.Animate = true;
-                    }
+                        if (notConrolledHero != null)
+                        {
+                            notConrolledHero.Control = Controller.Player;
+                            hero.Control = Controller.AltPlayer;
+                        }
 
-                    break;
-                case Key.DownArrow:
-                    foreach (Character hero in this.characters)
-                    {
-                        hero.CurrentAnimation = "WalkDown";
-                        hero.Animate = true;
-                    }
-
-                    break;
-                case Key.UpArrow:
-                    foreach (Character hero in this.characters)
-                    {
-                        hero.CurrentAnimation = "WalkUp";
-                        hero.Animate = true;
-                    }
-
-                    break;
-                case Key.Escape:
-                case Key.Q:
-                    Events.QuitApplication();
-                    break;
+                        break;
+                    case Key.Escape:
+                    case Key.Q:
+                        Events.QuitApplication();
+                        break;
+                }
             }
         }
 
