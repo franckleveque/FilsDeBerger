@@ -6,6 +6,8 @@ namespace FilsDeBerger.IA
 {
     public static class SheepIA
     {
+        private static Random t = new Random();
+
         public static SDL.MoveDirection Think(SDL.Character curChar, SDL.Character[] allChar)
         { 
             //Is sheep near one of the player controlled objects
@@ -24,7 +26,14 @@ namespace FilsDeBerger.IA
             Array.Sort<SDL.Character>(
                 playerControlled, delegate(SDL.Character a, SDL.Character b)
                 {
-                    return curChar.GetDistance(a).CompareTo(curChar.GetDistance(b));
+                    if (a != b)
+                    {
+                        return curChar.GetDistance(a).CompareTo(curChar.GetDistance(b));
+                    }
+                    else
+                    {
+                        return 0;
+                    }
                 });
             if (playerControlled.GetLength(0) > 0)
             {
@@ -64,9 +73,9 @@ namespace FilsDeBerger.IA
                 else
                 {
                     // We are not in the danger zone, let's just do something stupid
-                    Random t = new Random();
                     if (t.NextDouble() > .9)
                     {
+                        // Choose a new direction
                         return (SDL.MoveDirection)t.Next(5);
                     }
                     else

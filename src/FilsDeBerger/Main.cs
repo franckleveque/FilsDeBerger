@@ -44,11 +44,9 @@ namespace FilsDeBerger
             Video.SetVideoMode(800, 600);
 
             Character.Path = @"Graphics\Charset";
-            this.characters = new Character[2];
+            this.characters = new Character[10];
             this.characters[0] = new Shepherd();
-            this.characters[1] = new Sheep();
-
-            // Put him in the center of the screen
+            this.characters[1] = new Dog();
             this.characters[0].Center = new Point(
                 Video.Screen.Width / 2,
                 Video.Screen.Height / 2);
@@ -57,6 +55,15 @@ namespace FilsDeBerger
                 (Video.Screen.Width / 2) + 50,
                 Video.Screen.Height / 2);
 
+            for (int i = 2; i < 10; i++)
+            {
+                this.characters[i] = new Sheep();
+
+                // Put him in the center of the screen
+                this.characters[i].Center = new Point(
+                    Video.Screen.Width / 2,
+                    Video.Screen.Height / 2 + 50);
+            }
             // Initialize the thinking of IA
             System.Threading.ThreadPool.QueueUserWorkItem(delegate(object notUsed)
             {
@@ -270,33 +277,30 @@ namespace FilsDeBerger
         /// <param name="e">Parameters of the event</param>
         private void Events_KeyboardUp(object sender, KeyboardEventArgs e)
         {
-            // Check which key was brought up and stop the hero if needed
-            if (e.Key == Key.LeftArrow && this.characters[0].CurrentAnimation == "WalkLeft")
+            Character hero = Array.Find(characters, delegate(Character toCheck)
             {
-                foreach (Character hero in this.characters)
+                return toCheck.Control == Controller.Player;
+            });
+
+            if (hero != null)
+            {
+
+                // Check which key was brought up and stop the hero if needed
+                if (e.Key == Key.LeftArrow && hero.CurrentAnimation == "WalkLeft")
                 {
-                    hero.Animate = false;
+                        hero.Animate = false;
                 }
-            }
-            else if (e.Key == Key.UpArrow && this.characters[0].CurrentAnimation == "WalkUp")
-            {
-                foreach (Character hero in this.characters)
+                else if (e.Key == Key.UpArrow && hero.CurrentAnimation == "WalkUp")
                 {
-                    hero.Animate = false;
+                        hero.Animate = false;
                 }
-            }
-            else if (e.Key == Key.DownArrow && this.characters[0].CurrentAnimation == "WalkDown")
-            {
-                foreach (Character hero in this.characters)
+                else if (e.Key == Key.DownArrow && hero.CurrentAnimation == "WalkDown")
                 {
-                    hero.Animate = false;
+                        hero.Animate = false;
                 }
-            }
-            else if (e.Key == Key.RightArrow && this.characters[0].CurrentAnimation == "WalkRight")
-            {
-                foreach (Character hero in this.characters)
+                else if (e.Key == Key.RightArrow && hero.CurrentAnimation == "WalkRight")
                 {
-                    hero.Animate = false;
+                        hero.Animate = false;
                 }
             }
         }

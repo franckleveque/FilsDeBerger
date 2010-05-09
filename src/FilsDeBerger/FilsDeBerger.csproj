@@ -48,12 +48,15 @@
     <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="SDL\Character.cs" />
+    <Compile Include="SDL\Dog.cs" />
     <Compile Include="SDL\Sheep.cs" />
     <Compile Include="SDL\Shepherd.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Graphics\Charset\cow.png" />
-    <Content Include="Graphics\Charset\dog.png" />
+    <Content Include="Graphics\Charset\dog.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Graphics\Charset\goat.png" />
     <Content Include="Graphics\Charset\hen.png" />
     <Content Include="Graphics\Charset\pig.png" />
