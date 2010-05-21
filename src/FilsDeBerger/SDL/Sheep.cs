@@ -6,7 +6,8 @@ namespace FilsDeBerger.SDL
 {
     public class Sheep : Character
     {
-        public Sheep() : base("sheep.png")
+        public Sheep()
+            : base("sheep.png")
         {
             base.Speed = 1;
             base.Control = Controller.IA;

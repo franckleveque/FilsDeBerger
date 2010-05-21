@@ -38,6 +38,7 @@ namespace FilsDeBerger
         /// </summary>
         public FilsDeBerger()
         {
+            Random posAlea = new Random();
             // Start up the window
             Video.WindowIcon();
             Video.WindowCaption = "Fils de Berger";
@@ -61,8 +62,8 @@ namespace FilsDeBerger
 
                 // Put him in the center of the screen
                 this.characters[i].Center = new Point(
-                    Video.Screen.Width / 2,
-                    Video.Screen.Height / 2 + 50);
+                    Video.Screen.Width / 4 + posAlea.Next(Video.Screen.Width / 2),
+                    Video.Screen.Height / 4 + posAlea.Next(Video.Screen.Height / 2));
             }
             // Initialize the thinking of IA
             System.Threading.ThreadPool.QueueUserWorkItem(delegate(object notUsed)
