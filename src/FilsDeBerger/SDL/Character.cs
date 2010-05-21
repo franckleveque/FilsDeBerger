@@ -5,8 +5,13 @@
     using SdlDotNet.Graphics;
     using SdlDotNet.Graphics.Sprites;
 
-
-     public delegate MoveDirection ThinkerDelegate(Character curCharacter, Character[] allCharacters);
+    /// <summary>
+    /// Delegate function to make thinking characters
+    /// </summary>
+    /// <param name="curCharacter">Current character which is thinking</param>
+    /// <param name="allCharacters">All characters of the game</param>
+    /// <returns>Move direction of character</returns>
+    public delegate MoveDirection ThinkerDelegate(Character curCharacter, Character[] allCharacters);
 
     #region Enumerations
 
@@ -36,12 +41,34 @@
         None
     }
 
+    /// <summary>
+    /// Available move direction for a character
+    /// </summary>
     public enum MoveDirection
-    { 
+    {
+        /// <summary>
+        /// Character is moving up
+        /// </summary>
         Up,
+
+        /// <summary>
+        /// Character is moving right
+        /// </summary>
         Right,
+
+        /// <summary>
+        /// Character is moving down
+        /// </summary>
         Down,
+
+        /// <summary>
+        /// Character is moving left
+        /// </summary>
         Left,
+
+        /// <summary>
+        /// Character doesn't move
+        /// </summary>
         Stop
     }
 
@@ -168,6 +195,11 @@
 
         #endregion Properties
 
+        /// <summary>
+        /// Calculate the distance of a character
+        /// </summary>
+        /// <param name="toCheck">Character from which to check the distance</param>
+        /// <returns>The euclidian distance of the character</returns>
         public int GetDistance(Character toCheck)
         {
             return System.Math.Abs(this.Position.X - toCheck.Position.X) +

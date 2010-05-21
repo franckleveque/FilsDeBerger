@@ -1,16 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FilsDeBerger.SDL
+﻿namespace FilsDeBerger.SDL
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    /// <summary>
+    /// Game class of shepherd
+    /// </summary>
     public class Shepherd : Character
     {
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the Shepherd class.
+        /// </summary>
         public Shepherd()
             : base("shepherd.png")
         {
-            base.Speed = 2;
-            base.Control = Controller.Player;
+            this.Speed = 2;
+            this.Control = Controller.Player;
         }
+
+        #endregion Constructors
     }
 }

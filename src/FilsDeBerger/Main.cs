@@ -39,6 +39,7 @@ namespace FilsDeBerger
         public FilsDeBerger()
         {
             Random posAlea = new Random();
+
             // Start up the window
             Video.WindowIcon();
             Video.WindowCaption = "Fils de Berger";
@@ -62,23 +63,26 @@ namespace FilsDeBerger
 
                 // Put him in the center of the screen
                 this.characters[i].Center = new Point(
-                    Video.Screen.Width / 4 + posAlea.Next(Video.Screen.Width / 2),
-                    Video.Screen.Height / 4 + posAlea.Next(Video.Screen.Height / 2));
+                    (Video.Screen.Width / 4) + posAlea.Next(Video.Screen.Width / 2),
+                    (Video.Screen.Height / 4) + posAlea.Next(Video.Screen.Height / 2));
             }
+
             // Initialize the thinking of IA
             System.Threading.ThreadPool.QueueUserWorkItem(delegate(object notUsed)
             {
                 while (true)
                 {
                     // First get only IA controlled 
-                    Character[] iaControlled = Array.FindAll(characters, delegate(Character toCheck)
-                    {
-                        return toCheck.Control == Controller.IA && toCheck.Think != null;
-                    });
+                    Character[] iaControlled = Array.FindAll(
+                        this.characters,
+                        delegate(Character toCheck)
+                        {
+                            return toCheck.Control == Controller.IA && toCheck.Think != null;
+                        });
 
                     foreach (Character curIA in iaControlled)
                     {
-                        switch (curIA.Think(curIA, characters))
+                        switch (curIA.Think(curIA, this.characters))
                         { 
                             case MoveDirection.Down:
                                 if (curIA.CurrentAnimation != "WalkDown")
@@ -102,6 +106,7 @@ namespace FilsDeBerger
                                 {
                                     curIA.Animate = true;
                                 }
+
                                 break;
                             case MoveDirection.Right:
                                 if (curIA.CurrentAnimation != "WalkRight")
@@ -130,8 +135,7 @@ namespace FilsDeBerger
                                 }
 
                                 break;
-                        }
-                        
+                        }  
                     }
 
                     // Sleeping a little to let other threads do their jobs
@@ -226,10 +230,12 @@ namespace FilsDeBerger
         private void Events_KeyboardDown(object sender, KeyboardEventArgs e)
         {
             // Check which key was pressed and change the animation accordingly
-            Character hero = Array.Find(characters, delegate(Character toCheck)
-            {
-                return toCheck.Control == Controller.Player;
-            });
+            Character hero = Array.Find(
+                this.characters,
+                delegate(Character toCheck)
+                {
+                    return toCheck.Control == Controller.Player;
+                });
             if (hero != null)
             {
                 switch (e.Key)
@@ -251,10 +257,12 @@ namespace FilsDeBerger
                             hero.Animate = true;
                         break;
                     case Key.Tab:
-                        Character notConrolledHero = Array.Find(characters, delegate(Character toCheck)
-                        {
-                            return toCheck.Control == Controller.AltPlayer;
-                        });
+                        Character notConrolledHero = Array.Find(
+                            this.characters,
+                            delegate(Character toCheck)
+                            {
+                                return toCheck.Control == Controller.AltPlayer;
+                            });
 
                         if (notConrolledHero != null)
                         {
@@ -278,14 +286,15 @@ namespace FilsDeBerger
         /// <param name="e">Parameters of the event</param>
         private void Events_KeyboardUp(object sender, KeyboardEventArgs e)
         {
-            Character hero = Array.Find(characters, delegate(Character toCheck)
-            {
-                return toCheck.Control == Controller.Player;
-            });
+            Character hero = Array.Find(
+                this.characters,
+                delegate(Character toCheck)
+                {
+                    return toCheck.Control == Controller.Player;
+                });
 
             if (hero != null)
             {
-
                 // Check which key was brought up and stop the hero if needed
                 if (e.Key == Key.LeftArrow && hero.CurrentAnimation == "WalkLeft")
                 {
