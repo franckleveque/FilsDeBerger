@@ -193,6 +193,12 @@
             set;
         }
 
+        public bool Disposed
+        {
+            get;
+            private set;
+        }
+
         #endregion Properties
 
         /// <summary>
@@ -204,6 +210,16 @@
         {
             return System.Math.Abs(this.Position.X - toCheck.Position.X) +
                    System.Math.Abs(this.Position.Y - toCheck.Position.Y);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                this.Disposed = true;
+            }
+
+            base.Dispose(disposing);
         }
     }
 }

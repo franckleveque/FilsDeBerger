@@ -47,10 +47,11 @@
     <Compile Include="IA\SheepIA.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="SDL\Character.cs" />
-    <Compile Include="SDL\Dog.cs" />
-    <Compile Include="SDL\Sheep.cs" />
-    <Compile Include="SDL\Shepherd.cs" />
+    <Compile Include="SDL\Chars\Character.cs" />
+    <Compile Include="SDL\Chars\Dog.cs" />
+    <Compile Include="SDL\Chars\Sheep.cs" />
+    <Compile Include="SDL\Chars\Shepherd.cs" />
+    <Compile Include="SDL\StaticObjects\VictoryArea.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Graphics\Charset\cow.png" />
@@ -67,6 +68,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Graphics\Charset\wolf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Graphics\Ttf\comicbd.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

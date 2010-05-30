@@ -24,6 +24,13 @@ namespace FilsDeBerger
         /// </summary>
         private Character[] characters;
 
+        private SDL.StaticObjects.VictoryArea victoryArea;
+
+        /// <summary>
+        /// Thread safety locker
+        /// </summary>
+        private object threadLocker = new object();
+
         /// <summary>
         /// Indicates whether object have been disposed or not
         /// </summary>
@@ -46,6 +53,7 @@ namespace FilsDeBerger
             Video.SetVideoMode(800, 600);
 
             Character.Path = @"Graphics\Charset";
+            IA.SheepIA.ScreenSize = new Size(Video.Screen.Width, Video.Screen.Height);
             this.characters = new Character[10];
             this.characters[0] = new Shepherd();
             this.characters[1] = new Dog();
@@ -67,75 +75,89 @@ namespace FilsDeBerger
                     (Video.Screen.Height / 4) + posAlea.Next(Video.Screen.Height / 2));
             }
 
+            // Initialize victoryArea
+            victoryArea = new global::FilsDeBerger.SDL.StaticObjects.VictoryArea(
+                new Rectangle(
+                    new Point(
+                        Convert.ToInt32(Video.Screen.Width * .95),
+                        Convert.ToInt32(Video.Screen.Height * .25)),
+                    new Size(
+                        Convert.ToInt32(Video.Screen.Width * .7),
+                        Convert.ToInt32(Video.Screen.Height * .5))));
+
             // Initialize the thinking of IA
             System.Threading.ThreadPool.QueueUserWorkItem(delegate(object notUsed)
             {
-                while (true)
+
+                while (!this.disposed)
                 {
-                    // First get only IA controlled 
-                    Character[] iaControlled = Array.FindAll(
-                        this.characters,
-                        delegate(Character toCheck)
-                        {
-                            return toCheck.Control == Controller.IA && toCheck.Think != null;
-                        });
-
-                    foreach (Character curIA in iaControlled)
+                    if (!this.disposed)
                     {
-                        switch (curIA.Think(curIA, this.characters))
-                        { 
-                            case MoveDirection.Down:
-                                if (curIA.CurrentAnimation != "WalkDown")
-                                {
-                                    curIA.CurrentAnimation = "WalkDown";
-                                }
+                        // First get only IA controlled 
+                        Character[] iaControlled = Array.FindAll(
+                            this.characters,
+                            delegate(Character toCheck)
+                            {
+                                return toCheck.Control == Controller.IA && toCheck.Think != null;
+                            });
 
-                                if (!curIA.Animate)
-                                {
-                                    curIA.Animate = true;
-                                }
+                        foreach (Character curIA in iaControlled)
+                        {
+                            switch (curIA.Think(curIA, this.characters))
+                            {
+                                case MoveDirection.Down:
+                                    if (curIA.CurrentAnimation != "WalkDown")
+                                    {
+                                        curIA.CurrentAnimation = "WalkDown";
+                                    }
 
-                                break;
-                            case MoveDirection.Left:
-                                if (curIA.CurrentAnimation != "WalkLeft")
-                                {
-                                    curIA.CurrentAnimation = "WalkLeft";
-                                }
+                                    if (!curIA.Animate)
+                                    {
+                                        curIA.Animate = true;
+                                    }
 
-                                if (!curIA.Animate)
-                                {
-                                    curIA.Animate = true;
-                                }
+                                    break;
+                                case MoveDirection.Left:
+                                    if (curIA.CurrentAnimation != "WalkLeft")
+                                    {
+                                        curIA.CurrentAnimation = "WalkLeft";
+                                    }
 
-                                break;
-                            case MoveDirection.Right:
-                                if (curIA.CurrentAnimation != "WalkRight")
-                                {
-                                    curIA.CurrentAnimation = "WalkRight";
-                                }
+                                    if (!curIA.Animate)
+                                    {
+                                        curIA.Animate = true;
+                                    }
 
-                                if (!curIA.Animate)
-                                {
-                                    curIA.Animate = true;
-                                }
+                                    break;
+                                case MoveDirection.Right:
+                                    if (curIA.CurrentAnimation != "WalkRight")
+                                    {
+                                        curIA.CurrentAnimation = "WalkRight";
+                                    }
 
-                                break;
-                            case MoveDirection.Stop:
-                                curIA.Animate = false;
-                                break;
-                            case MoveDirection.Up:
-                                if (curIA.CurrentAnimation != "WalkUp")
-                                {
-                                    curIA.CurrentAnimation = "WalkUp";
-                                }
+                                    if (!curIA.Animate)
+                                    {
+                                        curIA.Animate = true;
+                                    }
 
-                                if (!curIA.Animate)
-                                {
-                                    curIA.Animate = true;
-                                }
+                                    break;
+                                case MoveDirection.Stop:
+                                    curIA.Animate = false;
+                                    break;
+                                case MoveDirection.Up:
+                                    if (curIA.CurrentAnimation != "WalkUp")
+                                    {
+                                        curIA.CurrentAnimation = "WalkUp";
+                                    }
 
-                                break;
-                        }  
+                                    if (!curIA.Animate)
+                                    {
+                                        curIA.Animate = true;
+                                    }
+
+                                    break;
+                            }
+                        }
                     }
 
                     // Sleeping a little to let other threads do their jobs
@@ -204,21 +226,24 @@ namespace FilsDeBerger
         /// <param name="disposing">Define if dispose of linked objects should occurs</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            lock (this.threadLocker)
             {
-                if (disposing)
+                if (!this.disposed)
                 {
-                    for (int i = 0; i < this.characters.GetLength(0); i++)
+                    if (disposing)
                     {
-                        if (this.characters[i] != null)
+                        for (int i = 0; i < this.characters.GetLength(0); i++)
                         {
-                            this.characters[i].Dispose();
-                            this.characters[i] = null;
+                            if (this.characters[i] != null)
+                            {
+                                this.characters[i].Dispose();
+                                this.characters[i] = null;
+                            }
                         }
                     }
-                }
 
-                this.disposed = true;
+                    this.disposed = true;
+                }
             }
         }
 
@@ -334,6 +359,12 @@ namespace FilsDeBerger
         {
             // Clear the screen, draw the hero and output to the window
             Video.Screen.Fill(Color.DarkGreen);
+
+            // Add a victory area, should be tall as 50% of screen and large as 5% of screen
+            Video.Screen.Blit(
+                this.victoryArea, 
+                this.victoryArea.UpperLeft);
+
             try
             {
                 foreach (Character hero in this.characters)
@@ -344,6 +375,33 @@ namespace FilsDeBerger
             catch (System.ArgumentOutOfRangeException ex)
             {
                 Console.WriteLine(ex.StackTrace.ToString());
+            }
+
+            // Check winning Condition
+            SDL.Sheep[] sheeps = Array.ConvertAll(
+                Array.FindAll(
+                    this.characters,
+                    delegate(Character toCheck)
+                    {
+                        return toCheck.GetType().Equals(typeof(SDL.Sheep));
+                    }),
+                delegate(Character target)
+                {
+                    return target as Sheep;
+                });
+            if (Array.TrueForAll(
+                sheeps,
+                delegate(Sheep toCheck)
+                {
+                    return toCheck.Safe;
+                }))
+            {
+                TextSprite victoryText = new TextSprite("Victory !", new SdlDotNet.Graphics.Font(System.IO.Path.Combine(@"Graphics\Ttf", "comicbd.ttf"), 32), Color.GhostWhite);
+                Video.Screen.Blit(
+                    victoryText,
+                    new Point(
+                        (Video.Screen.Width - victoryText.Width) / 2,
+                        (Video.Screen.Height - victoryText.Height) / 2));
             }
 
             Video.Screen.Update();
@@ -368,6 +426,18 @@ namespace FilsDeBerger
                         case "WalkRight":
                             hero.X += hero.Speed;
                             break;
+                    }
+                }
+
+                // Setting winning condition
+                if (hero.GetType().Equals(typeof(SDL.Sheep)))
+                { 
+                    // We have a sheep, let's check if it has been saved
+                    if (hero.IntersectsWith(this.victoryArea.Area))
+                    {
+                        SDL.Sheep curSheep = hero as SDL.Sheep;
+                        curSheep.Safe = true;
+                        curSheep = null;
                     }
                 }
             }

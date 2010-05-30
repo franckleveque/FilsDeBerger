@@ -20,6 +20,13 @@
             this.Speed = 1;
             this.Control = Controller.IA;
             this.Think = IA.SheepIA.Think;
+            this.Safe = false;
+        }
+
+        public bool Safe
+        {
+            get;
+            set;
         }
 
         #endregion Constructors
