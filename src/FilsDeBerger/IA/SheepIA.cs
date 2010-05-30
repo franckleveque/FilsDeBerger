@@ -18,6 +18,9 @@
 
         #endregion Fields
 
+        /// <summary>
+        /// Gets or sets screen size used by sheep to be kept in screen
+        /// </summary>
         public static System.Drawing.Size ScreenSize
         {
             get;
@@ -36,7 +39,7 @@
         {
             if (!curChar.Disposed)
             {
-                //Is sheep safe or not, if safe, run out of the screen
+                // Is sheep safe or not, if safe, run out of the screen
                 SDL.Sheep curSheep = curChar as SDL.Sheep;
                 if (curSheep.Safe)
                 {

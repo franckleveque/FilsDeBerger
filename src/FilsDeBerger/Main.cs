@@ -24,6 +24,9 @@ namespace FilsDeBerger
         /// </summary>
         private Character[] characters;
 
+        /// <summary>
+        /// Victory area of the game
+        /// </summary>
         private SDL.StaticObjects.VictoryArea victoryArea;
 
         /// <summary>
@@ -76,7 +79,7 @@ namespace FilsDeBerger
             }
 
             // Initialize victoryArea
-            victoryArea = new global::FilsDeBerger.SDL.StaticObjects.VictoryArea(
+            this.victoryArea = new global::FilsDeBerger.SDL.StaticObjects.VictoryArea(
                 new Rectangle(
                     new Point(
                         Convert.ToInt32(Video.Screen.Width * .95),
@@ -88,7 +91,6 @@ namespace FilsDeBerger
             // Initialize the thinking of IA
             System.Threading.ThreadPool.QueueUserWorkItem(delegate(object notUsed)
             {
-
                 while (!this.disposed)
                 {
                     if (!this.disposed)

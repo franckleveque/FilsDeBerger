@@ -1,31 +1,50 @@
-﻿using System.Drawing;
-
-using SdlDotNet.Graphics;
-
-
-namespace FilsDeBerger.SDL.StaticObjects
+﻿namespace FilsDeBerger.SDL.StaticObjects
 {
+    using System.Drawing;
+
+    using SdlDotNet.Graphics;
+
+    /// <summary>
+    /// Class used to determine victory area
+    /// </summary>
     public class VictoryArea : Surface
     {
-        public Point UpperLeft
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the VictoryArea class.
+        /// </summary>
+        /// <param name="area">Area of victory zone</param>
+        public VictoryArea(Rectangle area)
+            : base(area)
         {
-            get;
-            private set;
+            this.UpperLeft = new Point(area.Left, area.Top);
+            this.Area = area;
+            this.Fill(Color.Green);
         }
 
+        #endregion Constructors
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the area of the victory zone
+        /// </summary>
         public Rectangle Area
         {
             get;
             private set;
         }
 
-        public VictoryArea(Rectangle area)
-            :base(area)
+        /// <summary>
+        /// Gets the upper left corner of the victory zone
+        /// </summary>
+        public Point UpperLeft
         {
-            UpperLeft = new Point(area.Left, area.Top);
-            Area = area;
-            this.Fill(Color.Green);
+            get;
+            private set;
         }
 
+        #endregion Properties
     }
 }

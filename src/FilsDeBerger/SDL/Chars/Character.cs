@@ -193,6 +193,9 @@
             set;
         }
 
+        /// <summary>
+        /// Gets a value indicating whether object is diposed or not
+        /// </summary>
         public bool Disposed
         {
             get;
@@ -212,6 +215,10 @@
                    System.Math.Abs(this.Position.Y - toCheck.Position.Y);
         }
 
+        /// <summary>
+        /// Dispose an object ressources
+        /// </summary>
+        /// <param name="disposing">Indicates whether internal ressources should be disposed</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing)

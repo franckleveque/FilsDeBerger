@@ -23,6 +23,9 @@
             this.Safe = false;
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the sheep is safe
+        /// </summary>
         public bool Safe
         {
             get;
