@@ -39,6 +39,11 @@ namespace FilsDeBerger
         /// </summary>
         private bool disposed;
 
+        /// <summary>
+        /// Timer for playing time
+        /// </summary>
+        private System.Diagnostics.Stopwatch timer = new System.Diagnostics.Stopwatch();
+
         #endregion Fields
 
         #region Constructors
@@ -219,6 +224,7 @@ namespace FilsDeBerger
             Events.Quit += new EventHandler<QuitEventArgs>(this.Events_Quit);
             Events.KeyboardDown += new EventHandler<KeyboardEventArgs>(this.Events_KeyboardDown);
             Events.KeyboardUp += new EventHandler<KeyboardEventArgs>(this.Events_KeyboardUp);
+            this.timer.Start();
             Events.Run();
         }
 
@@ -391,6 +397,12 @@ namespace FilsDeBerger
                 {
                     return target as Sheep;
                 });
+
+            TextSprite timerText = new TextSprite(string.Format("{0}'{1}''", Convert.ToInt32(timer.Elapsed.TotalMinutes), timer.Elapsed.Seconds), new SdlDotNet.Graphics.Font(System.IO.Path.Combine(@"Graphics\Ttf", "comicbd.ttf"), 14), Color.GhostWhite);
+            Video.Screen.Blit(
+                    timerText,
+                    new Point(1,1));
+
             if (Array.TrueForAll(
                 sheeps,
                 delegate(Sheep toCheck)
@@ -398,12 +410,19 @@ namespace FilsDeBerger
                     return toCheck.Safe;
                 }))
             {
+                this.timer.Stop();
                 TextSprite victoryText = new TextSprite("Victory !", new SdlDotNet.Graphics.Font(System.IO.Path.Combine(@"Graphics\Ttf", "comicbd.ttf"), 32), Color.GhostWhite);
+                TextSprite resumeOfVictory = new TextSprite(string.Format("It tooks you {0} minutes and {1} seconds to store your sheep", Convert.ToInt32(timer.Elapsed.TotalMinutes), timer.Elapsed.Seconds), new SdlDotNet.Graphics.Font(System.IO.Path.Combine(@"Graphics\Ttf", "comicbd.ttf"), 16), Color.GhostWhite);
                 Video.Screen.Blit(
                     victoryText,
                     new Point(
                         (Video.Screen.Width - victoryText.Width) / 2,
-                        (Video.Screen.Height - victoryText.Height) / 2));
+                        (Video.Screen.Height - victoryText.Height - resumeOfVictory.Height) / 2));
+                Video.Screen.Blit(
+                    resumeOfVictory,
+                    new Point(
+                        (Video.Screen.Width - resumeOfVictory.Width) / 2,
+                        (Video.Screen.Height - victoryText.Height - resumeOfVictory.Height) / 2 + victoryText.Height));
             }
 
             Video.Screen.Update();
