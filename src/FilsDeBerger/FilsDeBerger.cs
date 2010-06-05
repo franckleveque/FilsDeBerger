@@ -398,7 +398,7 @@ namespace FilsDeBerger
                     return target as Sheep;
                 });
 
-            TextSprite timerText = new TextSprite(string.Format("{0}'{1}''", Convert.ToInt32(timer.Elapsed.TotalMinutes), timer.Elapsed.Seconds), new SdlDotNet.Graphics.Font(System.IO.Path.Combine(@"Graphics\Ttf", "comicbd.ttf"), 14), Color.GhostWhite);
+            TextSprite timerText = new TextSprite(string.Format("{0:00}'{1:00}''", Math.Floor(timer.Elapsed.TotalMinutes), timer.Elapsed.Seconds), new SdlDotNet.Graphics.Font(System.IO.Path.Combine(@"Graphics\Ttf", "comicbd.ttf"), 14), Color.GhostWhite);
             Video.Screen.Blit(
                     timerText,
                     new Point(1,1));
@@ -412,7 +412,7 @@ namespace FilsDeBerger
             {
                 this.timer.Stop();
                 TextSprite victoryText = new TextSprite("Victory !", new SdlDotNet.Graphics.Font(System.IO.Path.Combine(@"Graphics\Ttf", "comicbd.ttf"), 32), Color.GhostWhite);
-                TextSprite resumeOfVictory = new TextSprite(string.Format("It tooks you {0} minutes and {1} seconds to store your sheep", Convert.ToInt32(timer.Elapsed.TotalMinutes), timer.Elapsed.Seconds), new SdlDotNet.Graphics.Font(System.IO.Path.Combine(@"Graphics\Ttf", "comicbd.ttf"), 16), Color.GhostWhite);
+                TextSprite resumeOfVictory = new TextSprite(string.Format("It tooks you {0} minutes and {1} seconds to store your sheep", Math.Floor(timer.Elapsed.TotalMinutes), timer.Elapsed.Seconds), new SdlDotNet.Graphics.Font(System.IO.Path.Combine(@"Graphics\Ttf", "comicbd.ttf"), 16), Color.GhostWhite);
                 Video.Screen.Blit(
                     victoryText,
                     new Point(
