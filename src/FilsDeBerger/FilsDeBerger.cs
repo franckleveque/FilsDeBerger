@@ -25,6 +25,11 @@ namespace FilsDeBerger
         private Character[] characters;
 
         /// <summary>
+        /// Background surface of screen
+        /// </summary>
+        private SDL.StaticObjects.Background backGround;
+
+        /// <summary>
         /// Victory area of the game
         /// </summary>
         private SDL.StaticObjects.VictoryArea victoryArea;
@@ -60,8 +65,8 @@ namespace FilsDeBerger
             Video.WindowCaption = "Fils de Berger";
             Video.SetVideoMode(800, 600);
 
-            Character.Path = @"Graphics\Charset";
             IA.SheepIA.ScreenSize = new Size(Video.Screen.Width, Video.Screen.Height);
+            this.backGround = new global::FilsDeBerger.SDL.StaticObjects.Background(800, 600);
             this.characters = new Character[10];
             this.characters[0] = new Shepherd();
             this.characters[1] = new Dog();
@@ -274,20 +279,20 @@ namespace FilsDeBerger
                 switch (e.Key)
                 {
                     case Key.LeftArrow:
-                            hero.CurrentAnimation = "WalkLeft";
-                            hero.Animate = true;
+                        hero.CurrentAnimation = "WalkLeft";
+                        hero.Animate = true;
                         break;
                     case Key.RightArrow:
-                            hero.CurrentAnimation = "WalkRight";
-                            hero.Animate = true;
+                        hero.CurrentAnimation = "WalkRight";
+                        hero.Animate = true;
                         break;
                     case Key.DownArrow:
-                            hero.CurrentAnimation = "WalkDown";
-                            hero.Animate = true;
+                        hero.CurrentAnimation = "WalkDown";
+                        hero.Animate = true;
                         break;
                     case Key.UpArrow:
-                            hero.CurrentAnimation = "WalkUp";
-                            hero.Animate = true;
+                        hero.CurrentAnimation = "WalkUp";
+                        hero.Animate = true;
                         break;
                     case Key.Tab:
                         Character notConrolledHero = Array.Find(
@@ -331,19 +336,19 @@ namespace FilsDeBerger
                 // Check which key was brought up and stop the hero if needed
                 if (e.Key == Key.LeftArrow && hero.CurrentAnimation == "WalkLeft")
                 {
-                        hero.Animate = false;
+                    hero.Animate = false;
                 }
                 else if (e.Key == Key.UpArrow && hero.CurrentAnimation == "WalkUp")
                 {
-                        hero.Animate = false;
+                    hero.Animate = false;
                 }
                 else if (e.Key == Key.DownArrow && hero.CurrentAnimation == "WalkDown")
                 {
-                        hero.Animate = false;
+                    hero.Animate = false;
                 }
                 else if (e.Key == Key.RightArrow && hero.CurrentAnimation == "WalkRight")
                 {
-                        hero.Animate = false;
+                    hero.Animate = false;
                 }
             }
         }
@@ -367,10 +372,11 @@ namespace FilsDeBerger
         {
             // Clear the screen, draw the hero and output to the window
             Video.Screen.Fill(Color.DarkGreen);
+            Video.Screen.Blit(this.backGround);
 
             // Add a victory area, should be tall as 50% of screen and large as 5% of screen
             Video.Screen.Blit(
-                this.victoryArea, 
+                this.victoryArea,
                 this.victoryArea.UpperLeft);
 
             try
@@ -398,10 +404,10 @@ namespace FilsDeBerger
                     return target as Sheep;
                 });
 
-            TextSprite timerText = new TextSprite(string.Format("{0:00}'{1:00}''", Math.Floor(timer.Elapsed.TotalMinutes), timer.Elapsed.Seconds), new SdlDotNet.Graphics.Font(System.IO.Path.Combine(@"Graphics\Ttf", "comicbd.ttf"), 14), Color.GhostWhite);
+            TextSprite timerText = new TextSprite(string.Format("{0:00}'{1:00}''", Math.Floor(this.timer.Elapsed.TotalMinutes), this.timer.Elapsed.Seconds), new SdlDotNet.Graphics.Font(System.IO.Path.Combine(@"Graphics\Ttf", "comicbd.ttf"), 14), Color.GhostWhite);
             Video.Screen.Blit(
                     timerText,
-                    new Point(1,1));
+                    new Point(1, 1));
 
             if (Array.TrueForAll(
                 sheeps,
@@ -412,7 +418,15 @@ namespace FilsDeBerger
             {
                 this.timer.Stop();
                 TextSprite victoryText = new TextSprite("Victory !", new SdlDotNet.Graphics.Font(System.IO.Path.Combine(@"Graphics\Ttf", "comicbd.ttf"), 32), Color.GhostWhite);
-                TextSprite resumeOfVictory = new TextSprite(string.Format("It tooks you {0} minutes and {1} seconds to store your sheep", Math.Floor(timer.Elapsed.TotalMinutes), timer.Elapsed.Seconds), new SdlDotNet.Graphics.Font(System.IO.Path.Combine(@"Graphics\Ttf", "comicbd.ttf"), 16), Color.GhostWhite);
+                TextSprite resumeOfVictory = new TextSprite(
+                    string.Format(
+                        "It tooks you {0} minutes and {1} seconds to store your sheep",
+                        Math.Floor(this.timer.Elapsed.TotalMinutes),
+                        this.timer.Elapsed.Seconds),
+                    new SdlDotNet.Graphics.Font(
+                        System.IO.Path.Combine(@"Graphics\Ttf", "comicbd.ttf"), 
+                        16), 
+                    Color.GhostWhite);
                 Video.Screen.Blit(
                     victoryText,
                     new Point(
@@ -422,7 +436,7 @@ namespace FilsDeBerger
                     resumeOfVictory,
                     new Point(
                         (Video.Screen.Width - resumeOfVictory.Width) / 2,
-                        (Video.Screen.Height - victoryText.Height - resumeOfVictory.Height) / 2 + victoryText.Height));
+                        ((Video.Screen.Height - victoryText.Height - resumeOfVictory.Height) / 2) + victoryText.Height));
             }
 
             Video.Screen.Update();
@@ -452,7 +466,7 @@ namespace FilsDeBerger
 
                 // Setting winning condition
                 if (hero.GetType().Equals(typeof(SDL.Sheep)))
-                { 
+                {
                     // We have a sheep, let's check if it has been saved
                     if (hero.IntersectsWith(this.victoryArea.Area))
                     {

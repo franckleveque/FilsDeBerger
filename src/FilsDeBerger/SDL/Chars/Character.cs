@@ -104,12 +104,14 @@
         #region Properties
 
         /// <summary>
-        /// Gets or sets path of sprites used for characters
+        /// Gets path of sprites used for characters
         /// </summary>
         public static string Path
         {
-            get;
-            set;
+            get
+            {
+                return @"Graphics\Charset";
+            }
         }
 
         /// <summary>

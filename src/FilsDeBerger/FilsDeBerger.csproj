@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -51,6 +51,12 @@
     <Compile Include="SDL\Chars\Dog.cs" />
     <Compile Include="SDL\Chars\Sheep.cs" />
     <Compile Include="SDL\Chars\Shepherd.cs" />
+    <Compile Include="SDL\StaticObjects\Background.cs" />
+    <Compile Include="SDL\StaticObjects\Flower.cs" />
+    <Compile Include="SDL\StaticObjects\Grass.cs" />
+    <Compile Include="SDL\StaticObjects\Gravel.cs" />
+    <Compile Include="SDL\StaticObjects\Herbs.cs" />
+    <Compile Include="SDL\StaticObjects\TileManager.cs" />
     <Compile Include="SDL\StaticObjects\VictoryArea.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -68,6 +74,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Graphics\Charset\wolf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Graphics\Background\003-G_Ground01.png" />
+    <Content Include="Graphics\Background\023-FarmVillage01.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="Graphics\Ttf\comicbd.ttf">
