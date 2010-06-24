@@ -32,3 +32,6 @@ obj/
 _ReSharper*/
 #ignore svn files
 .svn/
+
+/src/images/DefaultCloneDetection.cqa.clonedetection.detection.clone-coverage.coverage-map.coverage-map.pattern0.png
+/src/images/DefaultCloneDetection.cqa.clonedetection.detection.clone-coverage.coverage-map.coverage-map.png

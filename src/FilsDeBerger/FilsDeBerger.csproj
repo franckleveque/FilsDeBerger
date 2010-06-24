@@ -76,7 +76,9 @@
     <Content Include="Graphics\Charset\wolf.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Graphics\Background\003-G_Ground01.png" />
+    <Content Include="Graphics\Background\003-G_Ground01.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Graphics\Background\023-FarmVillage01.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
