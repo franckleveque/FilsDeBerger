@@ -19,6 +19,7 @@
         {
             this.Speed = 3;
             this.Control = Controller.AltPlayer;
+            this.Eatable = false;
         }
 
         #endregion Constructors

@@ -21,6 +21,7 @@
             this.Control = Controller.IA;
             this.Think = IA.SheepIA.Think;
             this.Safe = false;
+            this.Eatable = true;
         }
 
         /// <summary>

@@ -19,6 +19,7 @@
         {
             this.Speed = 2;
             this.Control = Controller.Player;
+            this.Eatable = true;
         }
 
         #endregion Constructors

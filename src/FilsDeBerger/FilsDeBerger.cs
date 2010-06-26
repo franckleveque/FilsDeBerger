@@ -67,9 +67,17 @@ namespace FilsDeBerger
 
             IA.SheepIA.ScreenSize = new Size(Video.Screen.Width, Video.Screen.Height);
             this.backGround = new global::FilsDeBerger.SDL.StaticObjects.Background(800, 600);
-            this.characters = new Character[10];
+            this.characters = new Character[20];
             this.characters[0] = new Shepherd();
             this.characters[1] = new Dog();
+            for (int i = 2; i < 10; i++)
+            {
+                this.characters[i] = new Wolf();
+
+                this.characters[i].Center = new Point(
+                    0, // -Video.Screen.Width * 2,
+                    Video.Screen.Height / 2 + i);
+            }
             this.characters[0].Center = new Point(
                 Video.Screen.Width / 2,
                 Video.Screen.Height / 2);
@@ -78,7 +86,8 @@ namespace FilsDeBerger
                 (Video.Screen.Width / 2) + 50,
                 Video.Screen.Height / 2);
 
-            for (int i = 2; i < 10; i++)
+
+            for (int i = 10; i < this.characters.GetLength(0); i++)
             {
                 this.characters[i] = new Sheep();
 

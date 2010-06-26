@@ -44,13 +44,16 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IA\CommonIABehaviors.cs" />
     <Compile Include="IA\SheepIA.cs" />
     <Compile Include="FilsDeBerger.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="IA\WolfIA.cs" />
     <Compile Include="SDL\Chars\Character.cs" />
     <Compile Include="SDL\Chars\Dog.cs" />
     <Compile Include="SDL\Chars\Sheep.cs" />
     <Compile Include="SDL\Chars\Shepherd.cs" />
+    <Compile Include="SDL\Chars\Wolf.cs" />
     <Compile Include="SDL\StaticObjects\Background.cs" />
     <Compile Include="SDL\StaticObjects\Flower.cs" />
     <Compile Include="SDL\StaticObjects\Grass.cs" />
@@ -73,7 +76,9 @@
     <Content Include="Graphics\Charset\shepherd.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Graphics\Charset\wolf.png" />
+    <Content Include="Graphics\Charset\wolf.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Graphics\Background\003-G_Ground01.png">

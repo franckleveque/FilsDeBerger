@@ -196,6 +196,15 @@
         }
 
         /// <summary>
+        /// Gets or sets whether character is eatable.
+        /// </summary>
+        public bool Eatable
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets a value indicating whether object is diposed or not
         /// </summary>
         public bool Disposed
