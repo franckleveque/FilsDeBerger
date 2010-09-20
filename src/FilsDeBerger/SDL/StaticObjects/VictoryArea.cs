@@ -15,15 +15,16 @@
         /// Initializes a new instance of the VictoryArea class.
         /// </summary>
         /// <param name="area">Area of victory zone</param>
-        public VictoryArea(Rectangle area)
+        public VictoryArea(Rectangle area, Context context)
             : base(area)
         {
             this.UpperLeft = new Point(area.Left, area.Top);
             this.Area = area;
-            // this.Fill(Color.Green);
+
             Surface toFill = new Surface(new Size(32, 32));
             int x = 0;
             int y = 0;
+
             // Get left upper corner
             TileManager.FromTilemap(toFill, "003-G_Ground01.png", 0 * toFill.Width, 1 * toFill.Height);
             this.Blit(toFill);

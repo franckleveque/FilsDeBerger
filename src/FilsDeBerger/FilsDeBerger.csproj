@@ -44,6 +44,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Context.cs" />
     <Compile Include="IA\CommonIABehaviors.cs" />
     <Compile Include="IA\SheepIA.cs" />
     <Compile Include="FilsDeBerger.cs" />
